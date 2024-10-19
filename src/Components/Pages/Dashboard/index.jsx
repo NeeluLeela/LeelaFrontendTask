@@ -56,16 +56,16 @@ const Dashboard = () => {
           onChange={handleSearch}
           InputType="search"
           containerClass="max-w-[300px]"
-          className="b-lightgrey rounded-[10px] max-w-[300px] rounded-[20px] m-auto border-[1px] border- p-2  "
+          className="b-lightgrey rounded-[10px] max-w-[300px] rounded-[20px] m-auto border-[1px] border- p-2 pl-10 "
           Icon={<FaBuildingShield />}
         />
       </div>
       <hr />
-      <div className="h-[45px]  min-h-[45px] w-full px-24 text-[13px] uppercase text-[12px] font-semibold text-left flex items-center justify-between gap-20 border-b border-b-[1px] border-border">
-        <div className="w-[50%] flex items-center  max-w-[300px] min-w-[200px]">
+      <div className="h-[45px]  min-h-[45px] w-full px-24 text-[13px] uppercase text-[12px] font-semibold text-left flex items-center justify-between gap-2 border-b border-b-[1px] border-border">
+        <div className="w-[50%] flex items-center justify-center text-center  min-w-[200px] max-w-[350px]">
           <p>exchanges</p>
         </div>
-        <div className="w-[50%] flex items-center  max-w-[300px] min-w-[200px]">
+        <div className="w-[50%] flex items-center justify-center text-center  min-w-[200px] max-w-[350px] ">
           <p>24 h Trade volume</p>
         </div>
       </div>
@@ -76,7 +76,7 @@ const Dashboard = () => {
       >
         {currentmergedExchanges?.length > 0 ? (
           currentmergedExchanges?.map((exchange, index) => (
-            <div className=" h-[45px] min-h-[45px] w-full px-10 text-[13px] text-left flex items-center justify-between gap border-b border-b-[1px] border-lightGrey">
+            <div key={exchange.exchange_id} className=" h-[45px] min-h-[45px] w-full px-10 text-[13px] text-left flex items-center justify-between gap border-b border-b-[1px] border-lightGrey">
               <div className="min-w-fit  h-full flex gap-4 w-[50%] items-center justify-end max-w-[300px] min-w-[200px] ">
                 <div className="w-[200px] flex  gap-4">
                   <p>{startIndex + index + 1}</p>

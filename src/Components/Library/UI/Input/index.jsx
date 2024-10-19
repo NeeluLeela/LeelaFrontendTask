@@ -121,7 +121,7 @@ const Input = React.forwardRef(
               "[&:-webkit-autofill]:duration-[5000s]",
               "[&:-webkit-autofill]:text-fill-foreground",
               Icon ? "pl-10" : "pl-1",
-              InputType === "search" ? "pr-10" : "pr-3",
+              InputType === "search" ? "pr-10 pl-10" : "pr-3",
               className
             )}
             ref={ref}

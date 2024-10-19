@@ -20,7 +20,7 @@ const SignUpComponent = () => {
     setError,
     clearErrors,
     setValue
-  } = useForm();
+  } = useForm({defaultValues:{name:'',password:'',age:'',firstname:'',lastname:'',phoneNumber:'',email:''}});
 
   const [activeStep, setActiveStep] = useState(1);
   const { errors } = formState;
@@ -37,8 +37,8 @@ const SignUpComponent = () => {
     });
   };
 
-  const onStepClick = async (val, e) => {
-    e.preventDefault();
+  const onStepClick = async (val, ) => {
+   
 
     if (val > activeStep) {
       const isValid = await trigger();
@@ -107,6 +107,7 @@ const SignUpComponent = () => {
         <div className="max-w-[120px] min-w-[100px] w-fit h-[50px] bg-white flex items-center justify-evenly">
           {StepConstants?.map((item, index) => (
             <div
+            key={item.step}
               className={cn("w-fit p-2 h-full ", {
                 "border-b-2 border-[gold]": activeStep === item.step,
               })}
