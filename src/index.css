@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: whitesmoke;
+}
+@layer base {
+  :root {
+    width: 100%;
+    height: 100%;
+  
+     --primarybackground:rgba(1,173,185,255);
+    --primarybackgroundMuted: rgba(		30	174	200 );
+
+    --primaryText: rgba(16, 16, 16, 1);
+    --muted: rgba(70, 70, 70, 0.22);
+
+    
+   
+  }
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button{
+  -webkit-appearance: none;
+  margin:0
+}
+::-webkit-scrollbar{
+  display: none;
+}
+input[type=number]{
+  -moz-appearance: textfield;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+}
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+
+
+
