@@ -3,7 +3,6 @@ import { IconService } from "../../../Services/ExchangeServices/IconService";
 import { useEffect, useMemo, useState } from "react";
 
 const useExchangeHook = () => {
-  console.log('import.meta.env.VITE_COIN_API_KEY',import.meta.env.VITE_COIN_API_KEY)
   const [mergedExchange, setMergedExchane] = useState([]);
   const getExchangeHookIcons = async () => {
     return await IconService.getExchangeIcons();
