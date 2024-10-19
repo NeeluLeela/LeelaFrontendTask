@@ -20,7 +20,8 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.27.0",
     "react-toastify": "^10.0.6",
-    "tailwind-merge": "^2.5.4"
+    "tailwind-merge": "^2.5.4",
+    "vercel": "^37.11.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
