@@ -1,18 +1,36 @@
-import React, { useMemo, useState } from "react";
-import { Input } from "../../Library/UI/Input";
-import { FaBuildingShield } from "react-icons/fa6";
+import React, { useEffect, useMemo, useState } from "react";
 import useExchangeHook from "../../Hooks/ExchangeHooks/ExchangeHook";
 import usePagination from "../../Hooks/Pagination";
 import { PaginationControls } from "../../Hooks/Pagination/paginationControls";
+import FiltersSection from "./Filters";
+import HeaderSection from "./HeaderSections";
 
 const Dashboard = () => {
   const { mergedExchange } = useExchangeHook();
   const [searchTerm, setSearchTerm] = useState("");
+  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [maxVolume, setMaxVolume] = useState(100);
+
   const filteredExchanges = useMemo(() => {
-    return mergedExchange?.filter((exchange) =>
-      exchange.volume_1day_usd.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [mergedExchange, searchTerm]);
+    if (!mergedExchange) return [];
+
+    return mergedExchange.filter((exchange) => {
+      const exchangeId = exchange.exchange_id?.toString().toLowerCase() || "";
+      const volume =
+        exchange.volume_1day_usd?.toString().toLowerCase() || "";
+      const volumeValue = parseFloat(exchange.volume_1day_usd) || 0;
+
+      const matchesSearch =
+        !searchTerm ||
+        exchangeId.includes(searchTerm.toLowerCase()) ||
+        volume.includes(searchTerm.toLowerCase());
+
+      const withinPriceRange =
+        volumeValue >= priceRange[0] && volumeValue <= priceRange[1];
+
+      return matchesSearch && withinPriceRange;
+    });
+  }, [mergedExchange, searchTerm, priceRange]);
 
   const {
     currentItems: currentmergedExchanges,
@@ -30,34 +48,33 @@ const Dashboard = () => {
     setSearchTerm(e.target.value);
     handlePageClick(1);
   };
+
   const startIndex = (currentPage - 1) * 10;
 
+  useEffect(() => {
+    if (mergedExchange?.length) {
+      const max = Math.max(
+        ...mergedExchange.map((ex) => parseFloat(ex.volume_1day_usd) || 0)
+      );
+      setMaxVolume(max);
+      setPriceRange([0, max]);
+    }
+  }, [mergedExchange]);
+
+  const handlePriceRangeChange = (values) => {
+    setPriceRange(values);
+    handlePageClick(1);
+  };
 
   return (
     <div className="w-full h-full flex items-center text-sky-900 flex-col justify-center  p-4 px-20 hide-scrollbar">
-      <div className="w-full text-center flex flex-col h-[150px] items-center justify-evenly !min-h-fit">
-        <div className="w-full ">
-          <p className="text-[18px] text-sky-900 font-bold">
-            Top Crypto exchanges
-          </p>
-          <p className="text-[10px] font-normal">
-            Compare all 190 top crypto exchanges. The list is ranked by trading
-            volume
-          </p>
-        </div>
-        <div className="w-full h-[40px] border-b-[1px] border-border flex items-end justify-center mb-[20px] ">
-          <p className="underline underline-offset-4 text-[14px] font-semibold	">
-            {" "}
-            Exchanges
-          </p>
-        </div>
-        <Input
-          value={searchTerm}
-          onChange={handleSearch}
-          InputType="search"
-          containerClass="max-w-[300px]"
-          className="b-lightgrey rounded-[10px] max-w-[300px] rounded-[20px] m-auto border-[1px] border- p-2 pl-10 "
-          Icon={<FaBuildingShield />}
+      <div className="w-full text-center flex flex-col  items-center justify-evenly !min-h-fit h-[35%]">
+        <HeaderSection />
+        <FiltersSection
+          priceRange={priceRange}
+          handlePriceRangeChange={handlePriceRangeChange}
+          handleSearch={handleSearch}
+          maxVolume={maxVolume}
         />
       </div>
       <hr />
@@ -71,12 +88,15 @@ const Dashboard = () => {
       </div>
 
       <div
-        className="w-full text-center flex flex-col overflow-auto font-semibold flex flex-col items-center hide-scrollbar "
-        style={{ height: "calc(100% - 250px)" }}
+        className="w-full text-center flex flex-col   overflow-auto font-semibold flex flex-col items-center hide-scrollbar "
+        style={{ height: "calc(100% - 200px)" }}
       >
         {currentmergedExchanges?.length > 0 ? (
           currentmergedExchanges?.map((exchange, index) => (
-            <div key={exchange.exchange_id} className=" h-[45px] min-h-[45px] w-full px-10 text-[13px] text-left flex items-center justify-between gap border-b border-b-[1px] border-lightGrey">
+            <div
+              key={exchange.exchange_id}
+              className=" h-[45px] min-h-[45px] w-full px-10 text-[13px] text-left flex items-center justify-between gap border-b border-b-[1px] border-lightGrey"
+            >
               <div className="min-w-fit  h-full flex gap-4 w-[50%] items-center justify-end max-w-[300px] min-w-[200px] ">
                 <div className="w-[200px] flex  gap-4">
                   <p>{startIndex + index + 1}</p>
